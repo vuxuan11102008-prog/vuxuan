@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>🎂🎂🎂</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://i.postimg.cc/qvjz8QFW/Logo.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style/style.css" />
+  </head>
+
+  <body>
+    <div id="giftOverlay">
+      <div class="gift-container">
+        <img src="./style/gift.png" alt="Gift" id="giftImage" />
+        <p>Nhấn để mở quà</p>
+      </div>
+    </div>
+    <canvas id="matrixCanvas"></canvas>
+    <audio id="sound" loop>
+      <source src="./style/nhac.mp3" type="audio/mpeg" />
+    </audio>
+    <button id="readLetterBtn">Đọc Thư</button>
+
+    <div id="photoRain"></div>
+
+    <div id="letterOverlay">
+      <div class="letter-paper">
+        <button class="letter-close" id="letterClose">✕</button>
+        <div class="letter-scroll">
+          <div class="letter-content" id="letterContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./style/script.js"></script>
+  </body>
+</html>

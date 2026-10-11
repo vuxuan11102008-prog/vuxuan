@@ -16,6 +16,7 @@ function resize() {
 }
 resize();
 window.addEventListener("resize", resize);
+
 const characters = "HAPPYBIRTHDAYCHUCMUNGSINHNHATTUOIMOIZUIZE";
 const fontSize = 20;
 const columns = Math.floor(W / fontSize);
@@ -24,11 +25,11 @@ const drops = Array(columns).fill(1);
 const texts = [
   "3",
   "2",
-  "1", 
+  "1",
   "🎂",
-  "17.10.2026",
+  "11.10.2026",
   "HAPPY BIRTHDAY",
-  "LINH GIANG",
+  "VU XUAN"
 ];
 
 const BASE_DISPLAY_TIME = 3000;

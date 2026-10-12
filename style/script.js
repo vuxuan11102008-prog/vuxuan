@@ -61,7 +61,7 @@ let mouseY = -9999;
 let phase = "text";
 
 const ALL_IMG_FILES = [
-  ...Array.from({ length: 5 }, (_, i) => `Anh (${i + 1}).jpg`)
+  ...Array.from({ length: 7 }, (_, i) => `Anh (${i + 1}).jpg`)
 ];
 let currentImgIndex = 0;
 let currentSlideImg = null;

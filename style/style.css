@@ -1,0 +1,294 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  overflow: hidden;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+canvas {
+  display: block;
+  background: black;
+}
+
+#giftOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  cursor: pointer;
+  transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+
+.gift-container {
+  text-align: center;
+}
+
+#giftImage {
+  width: 200px;
+  height: auto;
+  animation: float 2s ease-in-out infinite;
+}
+
+#giftOverlay p {
+  color: white;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+#giftOverlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ── Ảnh rơi ── */
+#photoRain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none; /* không chặn tương tác chuột canvas */
+  z-index: 10;
+  overflow: hidden;
+}
+
+.falling-photo {
+  position: absolute;
+  top: -220px;
+  border: 6px solid #fff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  border-radius: 2px;
+  object-fit: cover;
+  opacity: 0;
+  animation: photoFall linear;
+  /* Chuyển đổi mượt khi đi qua vùng ảnh special */
+  transition: filter 0.35s ease;
+}
+
+/* Làm mờ khi ảnh rơi đi qua vùng special.jpg */
+.falling-photo.photo-dim {
+  filter: blur(5px) brightness(0.2);
+}
+
+@keyframes photoFall {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--rot)) translateY(0);
+  }
+  8% {
+    opacity: 0.9;
+  }
+  88% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0; /* mờ dần trước khi rơi khỏi màn hình */
+    transform: rotate(calc(var(--rot) + var(--spin))) translateY(var(--fall-dist));
+  }
+}
+
+/* ── Nút Đọc Thư ── */
+#readLetterBtn {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(24px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 200;
+  cursor: pointer;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 13px 36px;
+  border-radius: 50px;
+  transition: opacity 0.9s ease, transform 0.9s ease, visibility 0.9s,
+    background 0.25s ease, box-shadow 0.25s ease;
+}
+
+#readLetterBtn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+#readLetterBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 28px rgba(255, 255, 255, 0.18);
+  transform: translateX(-50%) translateY(-3px);
+}
+
+/* ── Overlay nền mờ ── */
+#letterOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s;
+}
+
+#letterOverlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Tờ giấy ── */
+.letter-paper {
+  position: relative;
+  width: min(620px, 92vw);
+  height: min(620px, 90vh);
+  background-color: #fdf6e9;
+  /* Đường kẻ giấy */
+  background-image: linear-gradient(transparent calc(100% - 1px),
+      rgba(180, 140, 100, 0.25) 1px);
+  background-size: 100% 2.2em;
+  background-position: 0 2.8em;
+  border-radius: 3px 3px 6px 6px;
+  /* Viền giấy kép: ngoài + trong */
+  border: 2px solid #c8a47a;
+  box-shadow:
+    inset 0 0 0 8px #fdf6e9,
+    inset 0 0 0 9px #c8a47a,
+    0 2px 0 #d4b896,
+    0 12px 48px rgba(0, 0, 0, 0.55),
+    0 3px 12px rgba(0, 0, 0, 0.3);
+  padding: 44px 52px 36px 52px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  animation: paperIn 0.45s cubic-bezier(0.34, 1.5, 0.64, 1) both;
+}
+
+@keyframes paperIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Nút đóng ── */
+.letter-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #b08060;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+  line-height: 1;
+}
+
+.letter-close:hover {
+  color: #7a4f2e;
+  background: rgba(160, 100, 50, 0.1);
+}
+
+/* ── Vùng cuộn nội dung (thanh cuộn ẩn) ── */
+.letter-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 6px;
+  /* Ẩn thanh cuộn trên mọi trình duyệt, giữ khả năng cuộn */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE / Edge cũ */
+}
+
+.letter-scroll::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+/* ── Nội dung thư ── */
+.letter-content {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 0.97rem;
+  line-height: 2.2em;
+  /* khớp đường kẻ giấy */
+  color: #3a2512;
+  text-align: justify;
+  word-break: break-word;
+}
+
+.letter-content p {
+  margin: 0 0 0.1em 0;
+}
+
+/* Dòng đầu dùng Pacifico */
+.letter-content p:first-child {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.25rem;
+  color: #8b4513;
+  text-align: left;
+  margin-bottom: 0.2em;
+}
+
+/* Con trỏ gõ chữ nhấp nháy */
+.letter-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 1em;
+  background: #5a3010;
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: cursorBlink 0.75s steps(1) infinite;
+}
+
+@keyframes cursorBlink {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
